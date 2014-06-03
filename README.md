@@ -47,10 +47,10 @@ $ ./ttywebm myrecording -f
 $ ./concat.sh [-a audio.mp3] [-fps 12] -o terminal.webm
 ```
 
-* Use the -a and -fps flags to set audio and framerate respectively (optional)
+Use the -a and -fps flags to set audio and framerate respectively (optional)
 
 ## Credits
 
-* Forked from ttygif [ttygif](https://github.com/icholy/ttygif)
+* Forked from [ttygif](https://github.com/icholy/ttygif)
 * The original idea and approach was adapted from [tty2gif](https://bitbucket.org/antocuni/tty2gif)
 
