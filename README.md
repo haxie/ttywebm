@@ -1,7 +1,7 @@
 # TTYWEBM 
 
 > ttywebm converts a ttyrec file into a webm video.
-> Based on ttygif and uses ffmpeg for conversion. 
+> Based on ttygif and using ffmpeg for conversion. 
 > Only tested with OS X at the moment, should work on most \*nix platforms.
 
 ## Setup
