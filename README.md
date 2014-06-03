@@ -1,7 +1,7 @@
 # TTYWEBM 
 
 > ttywebm converts a ttyrec file into a webm video.
-> Forked from ttygif and uses ffmpeg for conversion. 
+> It's forked from ttygif and uses ffmpeg for conversion. 
 > Only tested with OS X at the moment, should work on most \*nix platforms.
 
 ## Setup
@@ -51,6 +51,6 @@ $ ./concat.sh [-a audio.mp3] [-fps 12] -o terminal.webm
 
 ## Credits
 
-Forked from ttygif [ttygif](https://github.com/icholy/ttygif)
-The original idea and approach was adapted from [tty2gif](https://bitbucket.org/antocuni/tty2gif)
+* Forked from ttygif [ttygif](https://github.com/icholy/ttygif)
+* The original idea and approach was adapted from [tty2gif](https://bitbucket.org/antocuni/tty2gif)
 
