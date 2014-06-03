@@ -1,46 +1,58 @@
 #!/bin/bash
 
-# avoid deleting file, if convert will fail
-set -e
+pngs=$(find . -maxdepth 1 -name '*.png')
 
-output=${1-"output.gif"}
-prev_delay=0
-skipped=0
+while test $# -gt 0; do
+    case "$1" in
+        -h|--help)
+            echo "Usage: $package [-a file.mp3] [-fps 12]  -o output.webm"
+            exit 0
+            ;;
+        -a)
+            shift
+            if test $# -gt 0; then
+                # export AUDIO=$1
+                export AUDIOARGS="-i $1 -map 0:v -map 1:a"
+            else
+                echo "No audio file specified"
+                exit 1
+            fi
+            shift
+            ;;
+        -o)
+            shift
+            if test $# -gt 0; then
+                export OUTPUT=$1
+            else
+                echo "No output file specified"
+                exit 1
+            fi
+            shift
+            ;;
+        -fps)
+            shift
+            if test $# -gt 0; then
+                export FRAMERATE=$1
+            else
+                echo "No framerate specified"
+                exit 1
+            fi
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
 
-gifs=$(find . -maxdepth 1 -name '*.gif'| grep -v "$output" | sort | xargs)
+if [ -z $FRAMERATE ]; then
+    export FRAMERATE="12"
+fi
 
-# remove -loop 0 if you don't want it to repeat
-_convert="convert -loop 0 "
+echo "Creating WebM"
+_ffmpeg="ffmpeg -framerate $FRAMERATE -i %*.png $AUDIOARGS -s:v 1280x720 -c:v libvpx -b:v 1M -crf 23 -c:a libvorbis -r 30 -shortest $OUTPUT -y"
 
-for gif in $gifs; do
+eval "$_ffmpeg" &> /dev/null
 
-    file=${gif##*/} 
-    name=${file%.gif}
-    delay=$(echo "${name#*_} * 0.1" | bc)
-
-    # remove this is you don't want to trim zero delay frames
-    if [ $delay == 0 ] && [ $prev_delay == 0 ]; then
-        if [ $skipped -lt 5 ]; then
-          skipped=$(($skipped + 1))
-          prev_delay=$delay
-          continue
-        else
-          skipped=0
-        fi
-    fi
-
-    prev_delay=$delay
-
-    _convert="$_convert -delay $delay $gif"
-done;
-
-_convert="$_convert -layers Optimize $output"
-
-echo "creating animated gif: $output"
-
-eval "$_convert"
-
-echo "deleting temporary gifs"
-
-rm $gifs
-
+echo "Deleting Temporary PNGs"
+rm $pngs

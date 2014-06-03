@@ -1,32 +1,17 @@
-# TTYGIF
+# TTYWEBM 
 
-> ttygif converts a ttyrec file into gif files.
-> It's a stripped down version of ttyplay which calls `import` on every frame.
+> ttywebm converts a ttyrec file into a webm video.
+> Forked from ttygif and uses ffmpeg for conversion. 
+> Only tested with OS X at the moment, should work on most \*nix platforms.
 
 ## Setup
 
-### Debian/Ubuntu
-``` sh
-$ sudo apt-get install imagemagick ttyrec gcc
-$ git clone https://github.com/icholy/ttygif.git
-$ cd ttygif
-$ make
-```
-
-### Fedora/Redhat
-``` sh
-$ sudo yum install ImageMagick gcc
-$ # install ttyrec from source ~> https://github.com/mjording/ttyrec
-$ git clone https://github.com/icholy/ttygif.git
-$ cd ttygif
-$ make
-```
-
 ### OSX
 ``` sh
-$ brew install imagemagick ttyrec
-$ git clone https://github.com/icholy/ttygif.git
-$ cd ttygif
+$ brew install ffmpeg --with-libvpx --with-libvorbis 
+$ brew install ttyrec
+$ git clone https://github.com/haxie/ttywebm.git
+$ cd ttywebm 
 $ make
 ```
 
@@ -40,43 +25,32 @@ $ ttyrec myrecording
 
 * Hit CTRL-D or type `exit` when done recording.
 
-**2. Create gif frames**
+**2. Create PNG frames**
 
 ``` sh
-$ ./ttygif myrecording
+$ ./ttywebm myrecording
 ```
 
-* Dumps a bunch of gif images into the current directory.
-* File names have this pattern: `<zero_padded_index>_<delay_in_milliseconds>.gif`
+* Dumps a bunch of PNG images into the current directory.
+* File names have this pattern: `<zero_padded_index>_<delay_in_milliseconds>.png`
 
 On OSX optionally you can set a -f flag which will bypass cropping which is needed for terminal apps which aren't full screen. 
 Both standard Terminal and iTerm apps are supported.
 
 ``` sh
-$ ./ttygif myrecording -f
+$ ./ttywebm myrecording -f
 ```
 
-**3. Create animated gif**
+**3. Create WebM**
 
 ``` sh
-$ ./concat.sh terminal.gif 
+$ ./concat.sh [-a audio.mp3] [-fps 12] -o terminal.webm
 ```
 
-* Concatenates all the images in the current directory
-
-On OSX use concat_osx.sh since in OSX version bunch of PNGs are dumped into a folder and used as source (for better image quality).
-
-``` sh
-$ ./concat_osx.sh terminal.gif 
-```
-
-## Demo:
-
-![gif](http://i.imgur.com/kS18GFq.gif)
+* Use the -a and -fps flags to set audio and framerate respectively (optional)
 
 ## Credits
 
-The idea and approach was adapted from [tty2gif](https://bitbucket.org/antocuni/tty2gif)
-
-![](http://i.imgur.com/9et8daN.jpg)
+Forked from ttygif [ttygif](https://github.com/icholy/ttygif)
+The original idea and approach was adapted from [tty2gif](https://bitbucket.org/antocuni/tty2gif)
 

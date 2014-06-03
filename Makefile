@@ -6,16 +6,16 @@ UNAME := $(shell uname)
 ifeq ($(UNAME),Darwin)
 	TARGET = osx
 else
-	TARGET = ttygif
+	TARGET = ttywebm
 endif
 
 all: $(TARGET)
 
-ttygif: ttygif.o io.o 
-	$(CC) $(CFLAGS) -o ttygif ttygif.o io.o 
+ttywebm: ttywebm.o io.o 
+	$(CC) $(CFLAGS) -o ttywebm ttywebm.o io.o 
 
-osx: ttygif_osx.o io.o
-	$(CC) $(CFLAGS) -o ttygif ttygif_osx.o io.o
+osx: ttywebm_osx.o io.o
+	$(CC) $(CFLAGS) -o ttywebm ttywebm_osx.o io.o
 	
 clean:
 	rm -f *.o $(TARGET) ttyrecord *~
